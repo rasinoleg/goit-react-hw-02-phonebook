@@ -1,26 +1,30 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import styles from "./ContactForm.module.css";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import styles from './ContactForm.module.css';
+
 
 export default class ContactForm extends Component {
   state = {
-    name: "",
-    number: "",
+    name: '',
+    number: '',
   };
 
-  handleChange = (e) => {
+  handleChange = e => {
     const { name, value } = e.target;
     this.setState({
       [name]: value,
     });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
-
-    this.props.onAddContact({ ...this.state });
-
-    this.setState({ name: "", number: "" });
+    if (this.state.name.length === 0 || this.state.number.length === 0) {
+      alert('Fields must be filled!');
+      return;
+    }
+      this.props.onAddContact(this.state);
+      this.setState({ name: '', number: '' });
+    
   };
   render() {
     return (
@@ -55,6 +59,4 @@ export default class ContactForm extends Component {
 
 ContactForm.propTypes = {
   onAddContact: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
 };
